@@ -1,2 +1,1 @@
-# sparsederf
-The project page of Sparse-DeRF 
+The source code of this website is borrowed from [Nerfies website](https://nerfies.github.io) and [CamP](https://camp-nerf.github.io/).
