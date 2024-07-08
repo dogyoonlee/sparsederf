@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Sparse-DeRF: Deblurred Neural Radiance Fields from Sparse View">
+  <meta name="keywords" content="Sparse-DeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sparse-DeRF</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/video_comparison.js"></script>
+
+  <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+
+  
+</script>        
+  
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+});
+</script>
+
+</head>
+<body>
+
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://dogyoonlee.github.io">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://dogyoonlee.github.io/dpnerf/">
+              DP-NeRF
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+<section class="hero">
+  <div class="hero-body", style="padding-bottom: 0rem;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Sparse-DeRF: Deblurred Neural Radiance Fields from Sparse View</h1>
+          <h1 class="title is-4 publication-title">Under Review</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://dogyoonlee.github.io">Dogyoon Lee</a>&nbsp;&nbsp;</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=BaFYtwgAAAAJ&hl=ko">DongHyeong Kim</a>&nbsp;&nbsp;</span>
+            <span class="author-block">
+              <a href="https://Jho-Yonsei.github.io">Jungho Lee</a>&nbsp;&nbsp;</span>
+            </span>
+            <span class="author-block">
+              <a href="https://hydragon.co.kr">Minhyeok Lee</a>&nbsp;&nbsp;</span>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=b7A10VYAAAAJ&hl=ko">Sangyoun Lee</a><sup>†</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block", style="color:#726f6f">Yonsei University&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block", style="font-size: 15px;color:#726f6f"><sup>†&nbsp;</sup>Corresponding author </span>
+          <!-- </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block", style="color:#367DBD";>ArXiv</span> -->
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/dogyoonlee/Sparse-DeRF"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/1_TkpcJnw504ZOWmgVTD7vWqPdzbk9Wx_"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data (from Deblur-NeRF)</span>
+                  </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- Zoom Container. -->
+      <div class="zoom-container" data-gt-img-src="./static/images/teaser_images/decoration_6view_gt.png" data-zoom-factor="1"
+        data-default-u="0.09" data-default-v="0.3" id="teaser-zoom-container">
+        <div class="columns is-mobile is-marginless">
+          <div class="column is-one-third">
+            <div class="zoom-gt-container">
+              <!-- <img class="zoom-gt-img" src="./static/images/teaser_images/decoration_gt.png" alt="Ground Truth" /> -->
+              <canvas></canvas>
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/teaser_images/decoration_dpnerf_6view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/teaser_images/decoration_dpnerf_6view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/teaser_images/decoration_regnerf_dp_6view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/teaser_images/decoration_regnerf_dp_6view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/teaser_images/decoration_ours_6view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/teaser_images/decoration_ours_6view_disp.png)">
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/teaser_images/decoration_6view_gt.png)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-mobile has-text-centered is-marginless is-size-7-mobile">
+        <div class="column is-one-third">(a) Ground truth with annotation</div>
+        <div class="column is-one-sixth">(b) DP-NeRF</div>
+        <div class="column is-one-sixth">(c) RegNeRF(DP)</div>
+        <div class="column is-one-sixth">(d) Ours</div>
+        <div class="column is-one-sixth">(e) Ground truth</div>
+      </div>
+      <div class="content has-text-centered is-size-7-mobile">
+        Interactive visualization. Hover or tap to move the zoom cursor.
+      </div>
+      <!-- / Zoom Container. -->
+      <div class="content has-text-justified">
+        <p>
+          Sparse-DeRF regularizes the complex joint optimization of blur kernel and neural radiance fields under sparse blurry images, improving geometric structure and sharp texture.
+        </p>
+          We present the reconstructed clean deblurred neural radiance fields (DeRF) from 3 types of sparse views: 2-view, 4-view, and 6-view, which is carefully selected environmal setting based on comprehensive experiments.
+          We apply our method based on two types of representative blur kernels from <a href="https://limacv.github.io/deblurnerf/">Deblur-NeRF</a> and <a href="https://dogyoonlee.github.io/dpnerf/">DP-NeRF</a> (b).
+          Previously proposed representative regularization technique, <a href="https://m-niemeyer.github.io/regnerf/">RegNeRF</a> (c), could not enhance the correct geometric structure and sharp texture of the scene due to the complex optimization issue of the blurkernel from DP-NeRF and radiance fields.
+          Our proposed method (d) successfully regularizes the complex optimization and shows high-fidelity with high quality rendered images and videos.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/rendering.mp4"
+                type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section> -->
+
+<!-- <section class="section">
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-three-fifths">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/rendering_full.mp4"
+                type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+</section> -->
+
+<hr />
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <h2 class="title is-3">Abstract</h2>
+    <div class="content has-text-justified">
+      <p>
+        Recent studies construct deblurred neural radiance fields (DeRF) using dozens of blurry images, which are not practical scenarios if only a limited number of blurry images are available. 
+        This paper focuses on constructing DeRF from sparse- view for more pragmatic real-world scenarios. 
+      </p>
+      <p>
+        As observed in our experiments, establishing DeRF from sparse views proves to be a more challenging problem due to the inherent complexity arising from the simultaneous optimization of blur kernels and NeRF from sparse view. 
+        Sparse-DeRF successfully regularizes the complicated joint optimization, presenting alleviated overfitting artifacts and enhanced quality on radiance fields. 
+        The regularization consists of three key components: 
+        Surface smoothness, helps the model accurately predict the scene structure utilizing unseen and additional hidden rays derived from the blur kernel based on statistical tendencies of real-world; 
+        Modulated gradient scaling, helps the model adjust the amount of the backpropagated gradient according to the arrangements of scene objects; 
+        Perceptual distillation improves the perceptual quality by overcoming the ill- posed multi-view inconsistency of image deblurring and distilling the pre-filtered information, compensating for the lack of clean information in blurry images. 
+      </p>
+      <p>
+        We demonstrate the effectiveness of the Sparse-DeRF with extensive quantitative and qualitative experimental results by training DeRF from 2-view, 4-view, and 6-view blurry images.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <h2 class="title is-3">Complex Optimization Issue</h2>
+    <img alt="Architecture" src="./static/images/training_per_view.png" width="100%"/>
+    <div class="content has-text-justified">
+      <p>
+        The graph present expeirmental results according the number of blurry images from 2-view to 10-view.
+        The result demonstrates the joint optimization problem of blur kernel and neural radiance fields from sparse views.
+        The optimization issue occurs under the 9-view, which lead to suboptimal when apply the existing regularization technique.
+        Therefore, we set the practical sparse view settings as 2-view, 4-view, and 6-view.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <!-- Zoom Container. -->
+    <h2 class="title is-3">Visual Comparisons</h2>
+      <div class="zoom-container" data-gt-img-src="./static/images/2-view_comparison/parterre_2view_gt.png" data-zoom-factor="1"
+        data-default-u="0.09" data-default-v="0.3" id="teaser-zoom-container">
+        <div class="columns is-mobile is-marginless">
+          <div class="column is-one-third">
+            <div class="zoom-gt-container">
+              <!-- <img class="zoom-gt-img" src="./static/images/teaser_images/parterre_gt.png" alt="Ground Truth" /> -->
+              <canvas></canvas>
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/2-view_comparison/parterre_dpnerf_2view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/2-view_comparison/parterre_dpnerf_2view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/2-view_comparison/parterre_regnerf_dp_2view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/2-view_comparison/parterre_regnerf_dp_2view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/2-view_comparison/parterre_ours_2view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/2-view_comparison/parterre_ours_2view_disp.png)">
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/2-view_comparison/parterre_2view_gt.png)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-mobile has-text-centered is-marginless is-size-7-mobile">
+        <div class="column is-one-third">(a) Ground truth with annotation</div>
+        <div class="column is-one-sixth">(b) DP-NeRF</div>
+        <div class="column is-one-sixth">(c) RegNeRF (DP)</div>
+        <div class="column is-one-sixth">(d) Ours</div>
+        <div class="column is-one-sixth">(e) Ground truth</div>
+      </div>
+      <div class="content has-text-centered is-size-7-mobile">
+        Rendered color and depth results from <b>2-view</b>. 
+      </div>
+      <!-- / Zoom Container. -->
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <!-- Zoom Container. -->
+    <!-- <h2 class="title is-3">Comparison on 4-view</h2> -->
+      <div class="zoom-container" data-gt-img-src="./static/images/4-view_comparison/cozy2room_4view_gt.png" data-zoom-factor="1"
+        data-default-u="0.09" data-default-v="0.3" id="teaser-zoom-container">
+        <div class="columns is-mobile is-marginless">
+          <div class="column is-one-third">
+            <div class="zoom-gt-container">
+              <!-- <img class="zoom-gt-img" src="./static/images/teaser_images/cozy2room_gt.png" alt="Ground Truth" /> -->
+              <canvas></canvas>
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/4-view_comparison/cozy2room_dpnerf_4view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/4-view_comparison/cozy2room_dpnerf_4view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/4-view_comparison/cozy2room_regnerf_dp_4view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/4-view_comparison/cozy2room_regnerf_dp_4view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/4-view_comparison/cozy2room_ours_4view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/4-view_comparison/cozy2room_ours_4view_disp.png)">
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/4-view_comparison/cozy2room_4view_gt.png)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-mobile has-text-centered is-marginless is-size-7-mobile">
+        <div class="column is-one-third">(a) Ground truth with annotation</div>
+        <div class="column is-one-sixth">(b) DP-NeRF</div>
+        <div class="column is-one-sixth">(c) RegNeRF (DP)</div>
+        <div class="column is-one-sixth">(d) Ours</div>
+        <div class="column is-one-sixth">(e) Ground truth</div>
+      </div>
+      <div class="content has-text-centered is-size-7-mobile">
+        Rendered color and depth results from <b>4-view</b>
+      </div>
+      <!-- / Zoom Container. -->
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <!-- Zoom Container. -->
+    <!-- <h2 class="title is-3">Comparison from 6-view</h2> -->
+      <div class="zoom-container" data-gt-img-src="./static/images/6-view_comparison/basket_6view_gt.png" data-zoom-factor="1"
+        data-default-u="0.09" data-default-v="0.3" id="teaser-zoom-container">
+        <div class="columns is-mobile is-marginless">
+          <div class="column is-one-third">
+            <div class="zoom-gt-container">
+              <!-- <img class="zoom-gt-img" src="./static/images/teaser_images/basket_gt.png" alt="Ground Truth" /> -->
+              <canvas></canvas>
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/6-view_comparison/basket_dpnerf_6view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/6-view_comparison/basket_dpnerf_6view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/6-view_comparison/basket_regnerf_dp_6view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/6-view_comparison/basket_regnerf_dp_6view_disp.png)"></div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/6-view_comparison/basket_ours_6view_rgb.png)">
+            </div>
+            <div class="zoom-lens"
+              style="background-image: url(./static/images/6-view_comparison/basket_ours_6view_disp.png)">
+            </div>
+          </div>
+          <div class="column is-one-sixth">
+            <div class="zoom-lens" style="background-image: url(./static/images/6-view_comparison/basket_6view_gt.png)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-mobile has-text-centered is-marginless is-size-7-mobile">
+        <div class="column is-one-third">(a) Ground truth with annotation</div>
+        <div class="column is-one-sixth">(b) DP-NeRF</div>
+        <div class="column is-one-sixth">(c) RegNeRF (DP)</div>
+        <div class="column is-one-sixth">(d) Ours</div>
+        <div class="column is-one-sixth">(e) Ground truth</div>
+      </div>
+      <div class="content has-text-centered is-size-7-mobile">
+        Rendered color and depth results from <b>6-view</b>
+      </div>
+      <!-- / Zoom Container. -->
+      <div class="content has-text-justified">
+        <p>
+          The rendered RGB and depth images from 2-view, 4-view, and 6-view blurry images are presented with zoom-in to compare the visual quality.
+          It is prominent that RegNeRF (c) with blur kernel fails to grasp the accurate geometry and appearance due to the simultaneous complex optimization.
+          The performance of RegNeRF (DP) often shows even worse results than DP-NeRF (b).
+          However, our proposed method (d) shows prominently enhanced quality in both geometry and appearance.
+        </p>
+      </div>
+    </div>
+</section>
+
+
+<hr />
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    
+    <div class="content">
+      <h2 class="title is-3">Video Comparisons to Previous Regularization Method</h2>
+      <p>
+        We show the visual comparisons between RegNeRF with DP kernel and Sparse-DeRF through the rendered RGB and depth videos.
+        The videos demonstrate that previous regularization technique rather make the reconstruction quality of radiance fields worse on the sparse blurry environments, suffering geometric inaccuracy.
+        However, the results of Sparse-DeRF shows that our proposed method successfully regularize the joint optimization and enhance the geometric and appearnce quality.
+        Please click the tabs to see the visual comparisons on each scene.
+      </p>
+
+      <div class="tabs-widget">
+        <div class="tabs is-centered">
+          <ul class="is-marginless">
+            <li class="is-active"><a>decoration</a></li>
+            <li><a>factory</a></li>
+            <li><a>girl</a></li>
+            <li><a>heron</a></li>
+            <li><a>pool</a></li>
+            <li><a>stair</a></li>
+          </ul>
+        </div>
+<!--         
+        <div class="content has-text-centered is-size-7-mobile">
+          Interactive visualization. Hover or tap to move the split.
+        </div>
+         -->
+        <div class="tabs-content">
+          <!-- Begin decoration. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li class="is-active"><a>RGB</a></li>
+                  <li><a>Depth</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_decoration_rgb.mp4" type="video/mp4">
+                </video>
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_decoration_depth.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="columns is-mobile has-text-centered is-size-7-mobile">
+                <div class="column is-one-half">(a) RegNeRF (w/ DP kernel) </div>
+                <div class="column is-one-half">(b) Sparse-DeRF (Ours)</div>
+              </div>
+            </div>
+          </div>
+          <!-- End decoration. -->
+          <!-- Begin factory. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li class="is-active"><a>RGB</a></li>
+                  <li><a>Depth</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_factory_rgb.mp4" type="video/mp4">
+                </video>
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_factory_depth.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="columns is-mobile has-text-centered is-size-7-mobile">
+                <div class="column is-one-half">(a) RegNeRF (w/ DP kernel) </div>
+                <div class="column is-one-half">(b) Sparse-DeRF (Ours)</div>
+              </div>
+            </div>
+          </div>
+          <!-- End factory. -->
+          <!-- Begin girl. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li class="is-active"><a>RGB</a></li>
+                  <li><a>Depth</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_girl_rgb.mp4" type="video/mp4">
+                </video>
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_girl_depth.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="columns is-mobile has-text-centered is-size-7-mobile">
+                <div class="column is-one-half">(a) RegNeRF (w/ DP kernel) </div>
+                <div class="column is-one-half">(b) Sparse-DeRF (Ours)</div>
+              </div>
+            </div>
+          </div>
+          <!-- End girl. -->
+          <!-- Begin heron. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li class="is-active"><a>RGB</a></li>
+                  <li><a>Depth</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_heron_rgb.mp4" type="video/mp4">
+                </video>
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_heron_depth.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="columns is-mobile has-text-centered is-size-7-mobile">
+                <div class="column is-one-half">(a) RegNeRF (w/ DP kernel) </div>
+                <div class="column is-one-half">(b) Sparse-DeRF (Ours)</div>
+              </div>
+            </div>
+          </div>
+          <!-- End heron. -->
+          <!-- Begin pool. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li class="is-active"><a>RGB</a></li>
+                  <li><a>Depth</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_pool_rgb.mp4" type="video/mp4">
+                </video>
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_pool_depth.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="columns is-mobile has-text-centered is-size-7-mobile">
+                <div class="column is-one-half">(a) RegNeRF (w/ DP kernel) </div>
+                <div class="column is-one-half">(b) Sparse-DeRF (Ours)</div>
+              </div>
+            </div>
+          </div>
+          <!-- End pool. -->
+          <!-- Begin stair. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li class="is-active"><a>RGB</a></li>
+                  <li><a>Depth</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_stair_rgb.mp4" type="video/mp4">
+                </video>
+                <video id="replay-video" controls muted preload playsinline autoplay loop width="100%">
+                  <source src="./static/videos/comparison_stair_depth.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="columns is-mobile has-text-centered is-size-7-mobile">
+                <div class="column is-one-half">(a) RegNeRF (w/ DP kernel) </div>
+                <div class="column is-one-half">(b) Sparse-DeRF (Ours)</div>
+              </div>
+            </div>
+          </div>
+          <!-- End stair. -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+<!-- 
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Additional Side-by-Side Visual Comparisons</h2>
+    <p>
+      We present additional side-by-side comparisons according to the number of views.
+      The videos also demonstrate the superior visual quality of our proposed method.
+      Please click the tabs to see the visual comparisons on each scene.
+    </p>
+    <div class="tabs-widget">
+      <div class="tabs is-centered">
+        <ul class="is-marginless">
+          <li class="is-active"><a>decoration</a></li>
+          <li><a>factory</a></li>
+          <li><a>girl</a></li>
+          <li><a>heron</a></li>
+          <li><a>pool</a></li>
+          <li><a>stair</a></li>
+        </ul>
+      </div>
+      <div class="tabs-content">
+        
+        
+        <div>
+          <div class="tabs-widget">
+            <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+              <ul class="is-marginless">
+                <li class="is-active"><a>RGB</a></li>
+                <li><a>Depth</a></li>
+              </ul>
+            </div>
+            <div class="tabs-content">
+              <div class="video-comparison">
+                <video class="video" width=100% loop playsinline muted
+                  src="./static/videos/comparison_decoration_rgb_x2.mp4"></video>
+                <canvas></canvas>
+              </div>
+              <div class="video-comparison">
+                <video class="video" width=100% loop playsinline muted
+                  src="./static/videos/comparison_decoration_depth_x2.mp4"></video>
+                <canvas></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
+    
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            We thank the authors of <a
+            href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and <a
+            href="https://camp-nerf.github.io/">CamP</a> that kindly open sourced the template of this website.
+            In addition, we also thanks to the authors of the <a href="https://dorverbin.github.io/refnerf/">Ref-NeRF</a> for providing code for the video comparison.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.video-compare-container').forEach(function (container, index) {
+      console.log("Index of the container:", index);
+      container.addEventListener('click', function () {
+        if (index % 3 === 0) {
+          this.classList.toggle('expand-right');
+        } else if (index % 3 === 1) {
+          this.classList.toggle('expanded');
+        } else if (index % 3 === 2) {
+          this.classList.toggle('expand-left');
+        } 
+        
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
